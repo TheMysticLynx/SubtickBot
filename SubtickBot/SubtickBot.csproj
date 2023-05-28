@@ -24,10 +24,4 @@
         <HintPath>..\Lib\UnityEngine.dll</HintPath>
       </Reference>
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Images" />
-      <Folder Include="Resources\Sprites" />
-    </ItemGroup>
-
 </Project>
