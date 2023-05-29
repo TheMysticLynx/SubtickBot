@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/nightly/sdk:8.0-preview AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
 
 WORKDIR /src
 
@@ -13,7 +13,7 @@ COPY /Resources Resources
 WORKDIR /src
 RUN dotnet publish -c Release --use-current-runtime --self-contained false --no-restore -o /publish
 
-FROM mcr.microsoft.com/dotnet/nightly/runtime:8.0-preview AS runtime
+FROM mcr.microsoft.com/dotnet/runtime:7.0 AS runtime
 WORKDIR /publish
 COPY --from=build-env /publish .
 ENTRYPOINT ["dotnet", "SubtickBot.dll"]
