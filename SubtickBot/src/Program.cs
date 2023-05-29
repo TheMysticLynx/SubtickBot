@@ -5,6 +5,7 @@ using Discord.Interactions;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MongoDB.Driver;
 using Serilog;
 using Serilog.Events;
 using SubtickBot.Modules;
@@ -29,6 +30,8 @@ public class Program
                                 GatewayIntents = GatewayIntents.AllUnprivileged,
                                 AlwaysDownloadUsers = true
                             })
+                    .AddSingleton(new MongoClient(Environment.GetEnvironmentVariable("DB_URI")))
+                    .AddSingleton<MongoDbService>()
                     .AddSingleton<DiscordSocketClient>()
                     .AddSingleton<InteractionService>()
                     .AddSingleton<InteractionHandler>()

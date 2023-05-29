@@ -35,6 +35,14 @@ public class LevelImageGenerator
         _dragSpot = Image.Load($"{spritesPath}/dragSpot.png");
     }
 
+    public LevelImageGenerator(List<Image> cellSprites, Image grid, Image missing, Image dragSpot)
+    {
+        _cellPreviews = cellSprites.ToArray();
+        _grid = grid;
+        _missing = missing;
+        _dragSpot = dragSpot;
+    }
+
     public Image GenerateImage(DecodeResult source)
     {
         //generate the image

@@ -5,9 +5,13 @@ using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
 using Indev2.Encoder;
+using Microsoft.EntityFrameworkCore;
 using Modding.PublicInterfaces.Cells;
+using MongoDB.Driver;
 using SubtickBot.Core.ImageGeneration;
+using SubtickBot.Data;
 using SubtickBot.ExtensionMethods;
+using SubtickBot.Services;
 using Color = Discord.Color;
 
 namespace SubtickBot.Modules;
@@ -21,12 +25,14 @@ public enum EncodingType
 
 public class CellPreview : InteractionModuleBase
 {
-    private readonly DiscordSocketClient _client;
     private static readonly LevelImageGenerator LevelImageGenerator = new("./Resources/Sprites");
+    private readonly DiscordSocketClient _client;
+    private readonly MongoDbService _mongoClient;
 
-    public CellPreview(DiscordSocketClient client)
+    public CellPreview(DiscordSocketClient client, MongoDbService mongoClient)
     {
         _client = client;
+        _mongoClient = mongoClient;
     }
 
     [MessageCommand("preview text")]
@@ -62,10 +68,38 @@ public class CellPreview : InteractionModuleBase
     [SlashCommand("preview", "Previews a level")]
     public async Task Preview(string level, int zoom = 10)
     {
+        //defer the response
+        await DeferAsync();
+
         var timer = new Stopwatch();
         timer.Start();
 
+        var users = await _mongoClient.Users.FindAsync(u => u.Id == Context.User.Id, options: new FindOptions<User>
+        {
+            Limit = 1
+        });
+
+        var user = users.FirstOrDefault();
+
+        if (users == null)
+        {
+            //couldn't connect to the database
+            await RespondAsync("Failed to connect to database", ephemeral: true);
+            return;
+        }
+
+        if(user == null)
+        {
+            user ??= new User
+            {
+                Id = Context.User.Id
+            };
+
+            await _mongoClient.Users.InsertOneAsync(user);
+        }
+
         DecodeResult result = default;
+        long time;
         try
         {
             var task = Task.Run(() => result = LevelEncoder.Decode(level));
@@ -75,18 +109,25 @@ public class CellPreview : InteractionModuleBase
                await RespondAsync("Level decoding timed out", ephemeral: true);
                return;
             }
+
+            time = timer.ElapsedMilliseconds;
+            timer.Stop();
+
+            user.TotalPreviewTime += time;
+            user.LevelsPreviewed++;
         } catch (Exception e)
         {
-            await RespondAsync("Invalid level", ephemeral: true);
+            user.ErrorsThrown++;
+            await FollowupAsync("Invalid level", ephemeral: true);
             return;
+        } finally
+        {
+            await _mongoClient.Users.ReplaceOneAsync(u => u!= null && u.Id == Context.User.Id, user);
         }
-
-        var time = timer.ElapsedMilliseconds;
-        timer.Stop();
 
         if(default(DecodeResult).Equals(result))
         {
-            await RespondAsync("Level decoding timed out", ephemeral: true);
+            await FollowupAsync("Level decoding timed out", ephemeral: true);
             return;
         }
 
@@ -118,7 +159,7 @@ public class CellPreview : InteractionModuleBase
 
 
 
-        await RespondWithFileAsync(embed:embedBuilder.Build(), attachment: imageAttachment);
+        await FollowupWithFileAsync(embed:embedBuilder.Build(), attachment: imageAttachment);
     }
 
     [SlashCommand("convert", "Converts a level")]
@@ -136,5 +177,35 @@ public class CellPreview : InteractionModuleBase
         };
 
         await RespondAsync(str.Item2);
+    }
+
+    [SlashCommand("stats", "Gives stats about the bot")]
+    public async Task Stats()
+    {
+        var users = (await _mongoClient.Users.FindAsync(u => u.Id == Context.User.Id, options: new FindOptions<User>
+        {
+            Limit = 1
+        }));
+
+        var user = await users.FirstOrDefaultAsync();
+
+        if(user == null)
+        {
+            user = new User
+            {
+                Id = Context.User.Id
+            };
+
+            await _mongoClient.Users.InsertOneAsync(user);
+        }
+
+        var embedBuilder = new EmbedBuilder()
+            .WithTitle("Stats")
+            .WithColor(Color.Blue)
+            .AddField("Levels Previewed", user.LevelsPreviewed.ToString(), true)
+            .AddField("Total Preview Time", $"{user.TotalPreviewTime}ms", true)
+            .AddField("Errors Thrown", user.ErrorsThrown.ToString(), true);
+
+        await RespondAsync(embed: embedBuilder.Build());
     }
 }
