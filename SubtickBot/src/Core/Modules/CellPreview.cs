@@ -5,6 +5,7 @@ using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
 using Indev2.Encoder;
+using Modding.PublicInterfaces.Cells;
 using SubtickBot.Core.ImageGeneration;
 using SubtickBot.ExtensionMethods;
 using Color = Discord.Color;
@@ -59,15 +60,21 @@ public class CellPreview : InteractionModuleBase
     }
 
     [SlashCommand("preview", "Previews a level")]
-    public async Task Preview(string level)
+    public async Task Preview(string level, int zoom = 10)
     {
         var timer = new Stopwatch();
         timer.Start();
 
-        DecodeResult result;
+        DecodeResult result = default;
         try
         {
-            result = LevelEncoder.Decode(level);
+            var task = Task.Run(() => result = LevelEncoder.Decode(level));
+            if (!task.Wait(30000))
+            {
+               task.Dispose();
+               await RespondAsync("Level decoding timed out", ephemeral: true);
+               return;
+            }
         } catch (Exception e)
         {
             await RespondAsync("Invalid level", ephemeral: true);
@@ -76,6 +83,21 @@ public class CellPreview : InteractionModuleBase
 
         var time = timer.ElapsedMilliseconds;
         timer.Stop();
+
+        if(default(DecodeResult).Equals(result))
+        {
+            await RespondAsync("Level decoding timed out", ephemeral: true);
+            return;
+        }
+
+        var originalSize = result.Size;
+
+        //pad
+        if (zoom >= 0)
+        {
+            result.Cells = result.Cells.ZoomOnCells(zoom, out var offset).ToArray();
+            result.Size = offset;
+        }
 
         var image = LevelImageGenerator.GenerateImage(result);
         var stream = new MemoryStream();
@@ -91,7 +113,7 @@ public class CellPreview : InteractionModuleBase
             .WithColor(Color.Blue)
             .WithImageUrl("attachment://image.png")
             .AddField("Cell Count", result.Cells.Length.ToString(), true)
-            .AddField("Size", $"{result.Size.x}x{result.Size.y}", true)
+            .AddField("Size", $"{originalSize.x}x{originalSize.y}", true)
             .WithFooter($"{time}ms");
 
 
