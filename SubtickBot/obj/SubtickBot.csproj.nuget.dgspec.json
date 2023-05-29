@@ -1,32 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kaide\\RiderProjects\\SubtickBot\\SubtickBot\\SubtickBot.csproj": {}
+    "/Users/mystic/Projects/C#/SubtickBot/SubtickBot/SubtickBot.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kaide\\RiderProjects\\SubtickBot\\SubtickBot\\SubtickBot.csproj": {
+    "/Users/mystic/Projects/C#/SubtickBot/SubtickBot/SubtickBot.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kaide\\RiderProjects\\SubtickBot\\SubtickBot\\SubtickBot.csproj",
+        "projectUniqueName": "/Users/mystic/Projects/C#/SubtickBot/SubtickBot/SubtickBot.csproj",
         "projectName": "SubtickBot",
-        "projectPath": "C:\\Users\\kaide\\RiderProjects\\SubtickBot\\SubtickBot\\SubtickBot.csproj",
-        "packagesPath": "C:\\Users\\kaide\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kaide\\RiderProjects\\SubtickBot\\SubtickBot\\obj\\",
+        "projectPath": "/Users/mystic/Projects/C#/SubtickBot/SubtickBot/SubtickBot.csproj",
+        "packagesPath": "/Users/mystic/.nuget/packages/",
+        "outputPath": "/Users/mystic/Projects/C#/SubtickBot/SubtickBot/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\kaide\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/mystic/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pgnugetserver.azurewebsites.net/nuget": {}
         },
         "frameworks": {
           "net7.0": {
@@ -85,7 +80,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/x64/sdk/7.0.302/RuntimeIdentifierGraph.json"
         }
       }
     }
