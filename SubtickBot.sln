@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubtickBot", "SubtickBot\Su
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubtickBot.Data", "SubtickBot.Data\SubtickBot.Data.csproj", "{FD12AF95-258A-4DE6-9F68-548D8B8D2CEB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubtickBot.Tests", "SubtickBot.Tests\SubtickBot.Tests.csproj", "{00A1E308-AFF1-4322-A520-CE05FE6D6063}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{FD12AF95-258A-4DE6-9F68-548D8B8D2CEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD12AF95-258A-4DE6-9F68-548D8B8D2CEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD12AF95-258A-4DE6-9F68-548D8B8D2CEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00A1E308-AFF1-4322-A520-CE05FE6D6063}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00A1E308-AFF1-4322-A520-CE05FE6D6063}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00A1E308-AFF1-4322-A520-CE05FE6D6063}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00A1E308-AFF1-4322-A520-CE05FE6D6063}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

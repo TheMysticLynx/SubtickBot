@@ -2,4 +2,9 @@
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=_002FUsers_002Fmystic_002FProjects_002FC_0023_002FSubtickBot_002FLib_002FIndevModdingInterface_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=_002FUsers_002Fmystic_002FProjects_002FC_0023_002FSubtickBot_002FLib_002FUnityEngine_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=_002FUsers_002Fmystic_002FProjects_002FC_0023_002FSubtickBot_002FSubtickBot_002FLib_002FIndevModdingInterface_002Edll/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=_002FUsers_002Fmystic_002FProjects_002FC_0023_002FSubtickBot_002FSubtickBot_002FLib_002FUnityEngine_002Edll/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=_002FUsers_002Fmystic_002FProjects_002FC_0023_002FSubtickBot_002FSubtickBot_002FLib_002FUnityEngine_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5b9d6ef8_002Dedf8_002D4d91_002Db436_002Ddfb866b6d8e2/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="DecodeStrings" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::00A1E308-AFF1-4322-A520-CE05FE6D6063::net7.0::SubtickBot.Tests.Tests.DecodeStrings&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
