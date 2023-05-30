@@ -6,6 +6,8 @@ COPY SubtickBot/*.csproj .
 RUN dotnet restore --use-current-runtime
 
 COPY SubtickBot SubtickBot
+COPY SubtickBot.Data SubtickBot.Data
+COPY SubtickBot.Tests SubtickBot.Tests
 
 WORKDIR /publish
 COPY /Resources Resources
