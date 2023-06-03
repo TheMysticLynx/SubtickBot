@@ -1,7 +1,7 @@
 **/bin/
 **/obj/
 **/.idea/
-*.dll
-*.exe
-*.pdb
-*.sln.DotSettings.user
+**.dll
+**.exe
+**.pdb
+**.sln.DotSettings.user
