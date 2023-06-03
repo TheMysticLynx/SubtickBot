@@ -136,8 +136,7 @@ public class CellPreview : InteractionModuleBase
         //pad
         if (zoom >= 0)
         {
-            result.Cells = result.Cells.ZoomOnCells(zoom, out var offset).ToArray();
-            result.Size = offset;
+            result.Cells = result.Cells!.ZoomOnCells(ref result.DragSpots, zoom, ref result.Size).ToArray();
         }
 
         var image = LevelImageGenerator.GenerateImage(result);

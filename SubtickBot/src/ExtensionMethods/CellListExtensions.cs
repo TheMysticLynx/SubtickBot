@@ -1,4 +1,3 @@
-using Modding;
 using Modding.PublicInterfaces.Cells;
 using UnityEngine;
 
@@ -6,7 +5,7 @@ namespace SubtickBot.ExtensionMethods;
 
 public static class CellListExtensions
 {
-    public static List<BasicCell> ZoomOnCells(this IEnumerable<BasicCell> cells, int zoom, out Vector2Int size)
+    public static List<BasicCell> ZoomOnCells(this IEnumerable<BasicCell> cells, ref Vector2Int[] dragSpots, int zoom, ref Vector2Int size)
     {
         var min = new Vector2Int(int.MaxValue, int.MaxValue);
         var max = new Vector2Int(int.MinValue, int.MinValue);
@@ -27,19 +26,41 @@ public static class CellListExtensions
                 max.y = pos.y;
         }
 
-        //subtract min from all cells
-        for (var index = 0; index < cellsList.Count; index++)
+        min.x -= zoom;
+        min.y -= zoom;
+        max.x += zoom + 1;
+        max.y += zoom + 1;
+
+        min.x = Mathf.Clamp(min.x, 0, size.x);
+        min.y = Mathf.Clamp(min.y, 0, size.y);
+        max.x = Mathf.Clamp(max.x, 0, size.x);
+        max.y = Mathf.Clamp(max.y, 0, size.y);
+
+        size = max - min;
+
+        //create new list with zoomed cells
+        var zoomedCells = new List<BasicCell>();
+        foreach (var cell in cellsList)
         {
-            var cell = cellsList[index];
             var pos = cell.Transform.Position;
-            var newTransform = cell.Transform.SetPosition(new Vector2Int(pos.x - min.x + zoom, pos.y - min.y + zoom));
-            cell.Transform = newTransform;
-            cellsList[index] = cell;
+            pos.x -= min.x;
+            pos.y -= min.y;
+            var newCell = cell;
+            newCell.Transform = cell.Transform.SetPosition(pos);
+            zoomedCells.Add(newCell);
         }
 
-        //set size
-        size = new Vector2Int(max.x - min.x + zoom * 2 + 1, max.y - min.y + zoom * 2 + 1);
+        var newDragSpots = new List<Vector2Int>();
+        foreach (var spot in dragSpots)
+        {
+            var pos = spot;
+            pos.x -= min.x;
+            pos.y -= min.y;
+            newDragSpots.Add(pos);
+        }
 
-        return cellsList;
+        dragSpots = newDragSpots.ToArray();
+
+        return zoomedCells;
     }
 }
