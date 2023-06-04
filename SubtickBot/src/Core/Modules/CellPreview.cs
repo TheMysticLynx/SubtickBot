@@ -120,10 +120,7 @@ public class CellPreview : InteractionModuleBase
             user.ErrorsThrown++;
             await FollowupAsync("Invalid level", ephemeral: true);
             return;
-        } finally
-        {
-            await _mongoClient.Users.ReplaceOneAsync(u => u!= null && u.Id == Context.User.Id, user);
-        }
+        } 
 
         if(default(DecodeResult).Equals(result))
         {
@@ -155,8 +152,8 @@ public class CellPreview : InteractionModuleBase
             .AddField("Cell Count", result.Cells.Length.ToString(), true)
             .AddField("Size", $"{originalSize.x}x{originalSize.y}", true)
             .WithFooter($"{time}ms");
-
-
+        
+        await _mongoClient.Users.ReplaceOneAsync(u => u!= null && u.Id == Context.User.Id, user);
 
         await FollowupWithFileAsync(embed:embedBuilder.Build(), attachment: imageAttachment);
     }
