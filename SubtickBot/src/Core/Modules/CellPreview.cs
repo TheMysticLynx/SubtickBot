@@ -71,9 +71,6 @@ public class CellPreview : InteractionModuleBase
         //defer the response
         await DeferAsync();
 
-        var timer = new Stopwatch();
-        timer.Start();
-
         var users = await _mongoClient.Users.FindAsync(u => u.Id == Context.User.Id, options: new FindOptions<User>
         {
             Limit = 1
@@ -97,6 +94,9 @@ public class CellPreview : InteractionModuleBase
 
             await _mongoClient.Users.InsertOneAsync(user);
         }
+
+        var timer = new Stopwatch();
+        timer.Start();
 
         DecodeResult result = default;
         long time;
