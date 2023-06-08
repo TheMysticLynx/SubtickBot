@@ -5,7 +5,7 @@ namespace SubtickBot.ExtensionMethods;
 
 public static class CellListExtensions
 {
-    public static List<BasicCell> ZoomOnCells(this IEnumerable<BasicCell> cells, ref Vector2Int[] dragSpots, int zoom, ref Vector2Int size)
+    public static (List<BasicCell>, List<Vector2Int>) ZoomOnCells(this IEnumerable<BasicCell> cells, ref Vector2Int[] dragSpots, int zoom, ref Vector2Int size)
     {
         var min = new Vector2Int(int.MaxValue, int.MaxValue);
         var max = new Vector2Int(int.MinValue, int.MinValue);
@@ -56,11 +56,10 @@ public static class CellListExtensions
             var pos = spot;
             pos.x -= min.x;
             pos.y -= min.y;
+            pos.y = size.y - pos.y - 1;
             newDragSpots.Add(pos);
         }
 
-        dragSpots = newDragSpots.ToArray();
-
-        return zoomedCells;
+        return (zoomedCells, newDragSpots);
     }
 }

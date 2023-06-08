@@ -133,10 +133,13 @@ public class CellPreview : InteractionModuleBase
 
         var originalSize = result.Size;
 
+        var (cells, dragSpots) = result.Cells!.ZoomOnCells(ref result.DragSpots, zoom, ref result.Size);
+
         //pad
         if (zoom >= 0)
         {
-            result.Cells = result.Cells!.ZoomOnCells(ref result.DragSpots, zoom, ref result.Size).ToArray();
+            result.Cells = cells.ToArray();
+            result.DragSpots = dragSpots.ToArray();
         }
 
         var image = LevelImageGenerator.GenerateImage(result);
